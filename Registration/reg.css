@@ -1,0 +1,151 @@
+/* Общие стили */
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    background: url('log1.jpg') no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.form-box {
+    position: relative;
+    width: 400px;
+    height: auto;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 40px 20px; 
+}
+
+h2 {
+    font-size: 2em;
+    color: #fcfcfc;
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.inputbox {
+    position: relative;
+    margin: 20px 0;
+    width: 310px;
+    border-bottom: 2px solid #ffffff;
+}
+
+.inputbox input {
+    width: calc(100% - 30px);
+    height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1em;
+    padding: 0 5px;
+    color: #fff;
+}
+
+.eye {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #fff;
+}
+
+button {
+    width: 100%;
+    height: 40px;
+    border-radius: 40px;
+    background: #00eb00;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    margin-top: 20px;
+    color: #000000;
+}
+
+#passwordError {
+    color: red;
+    margin-top: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.login {
+    font-size: .9em;
+    color: #fff;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.login p a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 600;
+}
+
+.login p a:hover {
+    text-decoration: underline;
+}
+@media screen and (max-width: 390px) {
+    .form-box {
+        width: 70%;
+        padding: 20px 10px;
+    }
+
+    .inputbox {
+        width: 100%;
+    }
+
+    .inputbox input {
+        width: calc(100% - 40px);
+        height: 40px;
+        font-size: 0.9em;
+    }
+
+    h2 {
+        font-size: 1.5em;
+    }
+
+    button {
+        height: 35px;
+        font-size: 0.9em;
+    }
+
+    .forget, .register {
+        font-size: 0.8em;
+    }
+  }
+  .popup {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #f44336;
+    color: white;
+    padding: 16px;
+    border-radius: 4px;
+    z-index: 1000;
+    display: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.popup.show {
+    display: block;
+}

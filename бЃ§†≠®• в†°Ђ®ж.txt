@@ -1,0 +1,108 @@
+-- Структура таблицы `bmi_results`
+CREATE TABLE `bmi_results` (
+  `id` int(11) NOT NULL,
+  `users_id` int(11) NOT NULL,
+  `bmi` decimal(5,2) NOT NULL,
+  `category` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Структура таблицы `purchased_abonements`
+CREATE TABLE `purchased_abonements` (
+  `purchase_id` int(11) NOT NULL,
+  `users_id` int(11) DEFAULT NULL,
+  `abonement_type` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `purchase_date` date NOT NULL,
+  `expiration_date` date NOT NULL,
+  `status` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT 'pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Структура таблицы `purchased_workout`
+CREATE TABLE `purchased_workout` (
+  `workout_id` int(11) NOT NULL,
+  `users_id` int(11) NOT NULL,
+  `notification_sent` tinyint(1) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Структура таблицы `users`
+CREATE TABLE `users` (
+  `users_id` int(11) NOT NULL,
+  `first_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` blob NOT NULL,
+  `password` blob NOT NULL,
+  `role` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'user',
+  `reset_token` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `reset_expires` datetime DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Структура таблицы `user_questions`
+CREATE TABLE `user_questions` (
+  `question_id` int(11) NOT NULL,
+  `question_text` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `answer_text` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `phone_number` blob DEFAULT NULL,
+  `full_name` text COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Структура таблицы `workout_schedule`
+CREATE TABLE `workout_schedule` (
+  `schedule_id` int(11) NOT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `description` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `trainer_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `start_time` timestamp NOT NULL,
+  `end_time` timestamp NOT NULL,
+  `capacity` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Индексы и ключи
+ALTER TABLE `bmi_results`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `users_id` (`users_id`);
+
+ALTER TABLE `purchased_abonements`
+  ADD PRIMARY KEY (`purchase_id`),
+  ADD KEY `users_id` (`users_id`);
+
+ALTER TABLE `purchased_workout`
+  ADD PRIMARY KEY (`workout_id`,`users_id`),
+  ADD KEY `fk_users` (`users_id`);
+
+ALTER TABLE `users`
+  ADD PRIMARY KEY (`users_id`),
+  ADD UNIQUE KEY `email` (`email`) USING HASH;
+
+ALTER TABLE `user_questions`
+  ADD PRIMARY KEY (`question_id`);
+
+ALTER TABLE `workout_schedule`
+  ADD PRIMARY KEY (`schedule_id`);
+
+-- AUTO_INCREMENT
+ALTER TABLE `bmi_results`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+ALTER TABLE `purchased_abonements`
+  MODIFY `purchase_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+ALTER TABLE `users`
+  MODIFY `users_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+
+ALTER TABLE `user_questions`
+  MODIFY `question_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+
+ALTER TABLE `workout_schedule`
+  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+
+-- Ограничения внешнего ключа
+ALTER TABLE `bmi_results`
+  ADD CONSTRAINT `bmi_results_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`users_id`);
+
+ALTER TABLE `purchased_abonements`
+  ADD CONSTRAINT `purchased_abonements_ibfk_1` FOREIGN KEY (`users_id`) REFERENCES `users` (`users_id`);
+
+ALTER TABLE `purchased_workout`
+  ADD CONSTRAINT `fk_users` FOREIGN KEY (`users_id`) REFERENCES `users` (`users_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `fk_workout_schedule` FOREIGN KEY (`workout_id`) REFERENCES `workout_schedule` (`schedule_id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `purchased_workout_ibfk_2` FOREIGN KEY (`users_id`) REFERENCES `users` (`users_id`);

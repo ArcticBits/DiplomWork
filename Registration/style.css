@@ -1,0 +1,130 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f0f0f0; 
+}
+
+.form-section {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  border-radius: 10px;
+  border: 1px solid #ccc; 
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.form-box {
+  padding: 20px;
+}
+
+.form-value {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-value h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.inputbox {
+  position: relative;
+  margin-bottom: 30px;
+}
+
+.inputbox ion-icon {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 10px;
+  font-size: 20px;
+  color: #666;
+}
+
+.inputbox input {
+  width: 100%;
+  padding: 10px 10px 10px 40px;
+  border: none;
+  border-bottom: 2px solid #666;
+  outline: none;
+  background: transparent;
+  color: #333;
+  font-size: 16px;
+}
+
+.inputbox label {
+  position: absolute;
+  top: 50%;
+  left: 40px;
+  transform: translateY(-50%);
+  transition: 0.3s;
+  color: #666;
+  pointer-events: none;
+}
+
+.inputbox input:focus ~ label,
+.inputbox input:valid ~ label {
+  opacity: 0; 
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  background: #333;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+button:hover {
+  background: #555;
+}
+
+.message {
+  margin-top: 20px;
+  padding: 10px;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.message.success {
+  background: #d4edda;
+  color: #155724;
+}
+
+.message.error {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+.resend {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.resend a {
+  color: #333;
+  text-decoration: none;
+}
+
+.resend a:hover {
+  text-decoration: underline;
+}
+
+#timer {
+  font-size: 14px;
+  color: #666;
+}

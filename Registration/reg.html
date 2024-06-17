@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="reg.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HASH TECHIE OFFICIAL - Регистрация</title>
+</head>
+<body>
+    <section>
+        <div class="form-box">
+            <div class="form-value">
+                <form id="registrationForm" action="register.php" method="post" onsubmit="return validateForm()">
+                    <h2>Регистрация</h2>
+                    <div class="inputbox">
+                        <input type="text" name="last_name" required placeholder="Введите фамилию">
+                    </div>
+                    <div class="inputbox">
+                        <input type="text" name="first_name" required placeholder="Введите имя">
+                    </div>
+                    <div class="inputbox">
+                        <input type="email" id="email" name="email" required placeholder="Введите почту">
+                        <div id="emailError" class="error"></div>
+                    </div>
+                    <div class="inputbox">
+                        <input type="password" id="password" name="password" required placeholder="Введите пароль">
+                        <span class="eye" onclick="togglePasswordVisibility('password', this)">&#128065;</span>
+                        <div id="passwordCriteria" class="error"></div>
+                    </div>
+                    <div class="inputbox">
+                        <input type="password" id="confirmPassword" required placeholder="Подтвердите пароль">
+                        <span class="eye" onclick="togglePasswordVisibility('confirmPassword', this)">&#128065;</span>
+                    </div>
+                    <div id="passwordError" class="error"></div>
+                    <button type="submit">Зарегистрироваться</button>
+                    <div class="login">
+                        <p>Уже есть аккаунт? <a href="log.html">Войти</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <div id="popup" class="popup"></div>
+    <script>
+    function showPopup(message) {
+        var popup = document.getElementById("popup");
+        popup.innerText = message;
+        popup.classList.add("show");
+
+        setTimeout(function() {
+            popup.classList.remove("show");
+        }, 3000);
+    }
+
+    function validateForm() {
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+
+        // Валидация почты
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(email)) {
+            showPopup("Введите корректную почту");
+            return false;
+        }
+
+        // Валидация пароля
+        var passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
+        if (!passwordPattern.test(password)) {
+            showPopup("Пароль должен быть не менее 8 символов, содержать букву и цифру");
+            return false;
+        }
+
+        if (password != confirmPassword) {
+            showPopup("Пароли не совпадают");
+            return false;
+        }
+        return true; 
+    }
+
+    function togglePasswordVisibility(inputId, icon) {
+        var input = document.getElementById(inputId);
+        if (input.type === "password") {
+            input.type = "text";
+            icon.innerHTML = "&#128064;";
+        } else {
+            input.type = "password";
+            icon.innerHTML = "&#128065;";
+        }
+    }
+
+    document.getElementById("registrationForm").addEventListener("submit", function(event) {
+        event.preventDefault(); 
+
+        if (validateForm()) {
+            var form = this;
+            var formData = new FormData(form);
+
+            fetch(form.action, {
+                method: form.method,
+                body: formData
+            }).then(response => response.text()).then(data => {
+                if (data.includes("success")) {
+                    alert("Регистрация прошла успешно!");
+                    window.location.href = "log.html";
+                } else if (data.includes("Email already registered")) {
+                    showPopup("Эта почта уже зарегистрирована");
+                } else {
+                    showPopup(data);
+                }
+            }).catch(error => {
+                console.error("Ошибка:", error);
+            });
+        }
+    });
+    </script>
+</body>
+</html>

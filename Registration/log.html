@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="log.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HASH TECHIE OFFICIAL</title>
+</head>
+<body>
+    <section>
+        <div class="form-box">
+            <div class="form-value">
+                <form id="loginForm" action="log.php" method="post" onsubmit="return validateForm()">
+                    <h2>Вход</h2>
+                    <div class="inputbox">
+                        <ion-icon name="mail-outline"></ion-icon>
+                        <input type="text" id="email" name="email" required> 
+                        <label class="email-label" for="email">Почта</label>
+                    </div>
+                    <div class="inputbox">
+                        <ion-icon name="lock-closed-outline"></ion-icon>
+                        <input type="password" id="password" name="password" required> 
+                        <label for="password">Пароль</label>
+                    </div>
+                    <div class="forget">
+                        <div class="remember-me">
+                            <label for="rememberMe"><input type="checkbox" id="rememberMe" name="rememberMe">Запомнить меня</label>
+                        </div>
+                        <div class="forgot-password">
+                            <a href="forgot_password.html">Забыл(а) пароль</a>
+                        </div>
+                    </div>
+                    <button type="submit">Войти</button> 
+                    <div class="register">
+                        <p>Нет аккаунта? <a href="reg.html">Зарегистрироваться</a></p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <p>Неверный Email или Пароль</p>
+        <button class="btn btn-success">ОК</button> 
+      </div>
+    </div>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script>
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        function getCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        window.onload = function() {
+            var email = getCookie("email");
+            var password = getCookie("password");
+            if (email) {
+                document.getElementById("email").value = email;
+                document.getElementById("rememberMe").checked = true;
+            }
+            if (password) {
+                document.getElementById("password").value = password;
+                document.getElementById("rememberMe").checked = true;
+            }
+
+            var urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('modal') && urlParams.get('modal') === 'active_abonement') {
+                var modal = document.getElementById('myModal');
+                modal.style.display = "block";
+                window.onclick = function(event) {
+                    if (event.target == modal) {
+                        modal.style.display = "none";
+                    }
+                }
+                var closeButton = document.querySelector('.close');
+                if (closeButton) {
+                    closeButton.addEventListener('click', function() {
+                        modal.style.display = 'none'; 
+                    });
+                }
+                var okButton = document.querySelector('.btn-success');
+                if (okButton) {
+                    okButton.addEventListener('click', function() {
+                        modal.style.display = 'none'; 
+                    });
+                }
+            }
+        }
+
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            if (document.getElementById("rememberMe").checked) {
+                setCookie("email", document.getElementById("email").value, 30);
+                setCookie("password", document.getElementById("password").value, 30);
+            } else {
+                setCookie("email", "", -1);
+                setCookie("password", "", -1);
+            }
+        });
+    </script>
+</body>
+</html>

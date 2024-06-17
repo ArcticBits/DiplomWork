@@ -1,0 +1,14 @@
+{
+    "name": "lethi/diplom",
+    "description": "Diplom",
+    "type": "project",
+    "require": {
+        "phpmailer/phpmailer": "^6.9"
+    },
+    "autoload": {
+        "psr-4": {
+            "Lethi\\Diplom\\": "src/"
+        }
+    },
+    "minimum-stability": "stable"
+}
